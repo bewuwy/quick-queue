@@ -18,6 +18,8 @@ async function getQueueData(queue: number) {
     ORDER BY position;
     `;
 
+    // sql.end();
+
     let orders_waiting = data;
 
     return {

@@ -21,5 +21,7 @@ export async function POST(request: Request) {
     WHERE queue_id = ${ queue_id } and position = ${ position };
     `;
 
+    // sql.end();
+
     return new Response('ok', { status: 200 });
 }

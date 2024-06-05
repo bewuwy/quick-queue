@@ -1,4 +1,7 @@
+import Link from "next/link";
 import sql from "../../db";
+import { buttonVariants } from "@/components/ui/button";
+import { CirclePlus } from "lucide-react";
 
 // queue page
 
@@ -14,6 +17,8 @@ async function getQueueData(queue: number) {
     SELECT count(position) FROM customers WHERE queue_id=${ queue } and ready=false;
     `;
 
+    // sql.end();
+
     let num_waiting = data[0].count;
 
     return {
@@ -27,11 +32,13 @@ export default async function QueuePage({ params }: { params: { queue: string }}
     let data = await getQueueData(parseInt(params.queue));
 
     return (
-    <div>
-        <h1>{data.queue_name}</h1>
-        <p>{data.num_waiting} people waiting</p>
-        <br/>
-        <a href={`${params.queue}/add`}>Queue up</a>
+    <div className="flex-grow mb-12 flex flex-col justify-between">
+        <div>
+            <h1>{data.queue_name}</h1>
+            { data.num_waiting == 0 ? <p>No one is waiting</p> : <p>{data.num_waiting} order(s) waiting</p>}
+        </div>
+
+        <Link className={buttonVariants({ variant: "secondary" })} href={`${params.queue}/add`}><CirclePlus className='w-5 h-5 mr-2' />Queue up</Link>
     </div>
     )
 }

@@ -19,6 +19,8 @@ async function enqueue(queue: number) {
     values (${ queue }, ${customer_id}, (SELECT last_num FROM queue WHERE queue_id = ${ queue }));
   `;
 
+  // sql.end();
+
   return {
     customer_id
   };
