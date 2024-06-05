@@ -73,7 +73,7 @@ export default async function WaitingPage({params}: { params: { queue: string, c
 
         <div className='flex mt-12 gap-2'>
             { data.customer_ready 
-                ? <div className='font-bold text-xl flex gap-2'>Your order is ready <Utensils className='w-6 h-6'/></div> 
+                ? <div className='font-bold text-xl flex gap-2'>Your order is ready! <Utensils className='w-6 h-6'/></div> 
                 : <>Your order is being prepared <CookingPot className='w-6 h-6'/></> 
             } 
         </div>

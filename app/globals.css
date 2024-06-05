@@ -47,10 +47,19 @@
 
 a {
   @apply text-secondary;
+  border-radius: 0.45rem;
+}
+
+button {
+  border-radius: 0.45rem;
 }
 
 h1 {
   @apply text-xl font-bold;
+}
+
+h2 {
+  @apply text-lg font-bold;
 }
 
 .receipt-bg {

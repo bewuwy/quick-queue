@@ -14,12 +14,22 @@ export async function POST(request: Request) {
 
     let queue_id = res?.queue_id;
     let position = res?.position;
+    let type = res?.type;
 
-    await sql`
-    UPDATE customers
-    SET ready = TRUE
-    WHERE queue_id = ${ queue_id } and position = ${ position };
-    `;
+    if (type === 'waiting') {
+
+        await sql`
+        UPDATE customers
+        SET ready = TRUE
+        WHERE queue_id = ${ queue_id } and position = ${ position };
+        `;
+    } else if (type === 'ready') {
+
+        await sql`
+        DELETE FROM customers
+        WHERE queue_id = ${ queue_id } AND position = ${ position } AND ready = TRUE;
+        `;
+    }
 
     // sql.end();
 
