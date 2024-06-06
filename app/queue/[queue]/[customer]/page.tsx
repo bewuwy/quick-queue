@@ -14,11 +14,12 @@ async function getData(queue: string, customer: string) {
 
     // get customer and check order number
     data = await sql`
-    SELECT position, ready FROM customers WHERE queue_id=${ queue } and customer_id=${ customer };
+    SELECT position, ready, updated_at FROM customers WHERE queue_id=${ queue } and customer_id=${ customer };
     `;
 
     let customer_position = data[0].position;
     let customer_ready = data[0].ready;
+    let updated_at = data[0].updated_at;
 
     if (customer_ready === true) {        
         // sql.end();
@@ -27,7 +28,8 @@ async function getData(queue: string, customer: string) {
             num_ahead: 0,
             customer_ready,
             customer_position,
-            queue_name
+            queue_name,
+            updated_at
         };
     }
 
@@ -44,18 +46,25 @@ async function getData(queue: string, customer: string) {
         num_ahead,
         customer_ready,
         customer_position,
-        queue_name
+        queue_name,
+        updated_at
     };
 }
 
 export default async function WaitingPage({params}: { params: { queue: string, customer: string } }) {
 
     let data = await getData(params.queue, params.customer);
+    
+    let ticket_date = new Date(data.updated_at);
+    // if generated today, show only time
+    let ticket_date_str = ticket_date.toDateString() === new Date().toDateString() 
+        ? ticket_date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) 
+        : ticket_date.toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'});
 
     let is_are = data.num_ahead > 1 ? 's are' : ' is';
 
     return (
-        <div className='flex flex-col receipt-bg px-4 py-6 justify-between items-center'>
+        <div className='flex flex-col receipt-bg px-4 py-6 justify-between items-center md:w-96 self-center'>
         {/* refresh page every 30s */}
         { !data.customer_ready? <meta httpEquiv="refresh" content="30" /> : null }
         
@@ -63,7 +72,7 @@ export default async function WaitingPage({params}: { params: { queue: string, c
 
         <div className='mb-4 flex flex-col items-center'>
             <h1>Order from { data.queue_name }</h1>
-            <p>Ticket generated at 18:37</p> 
+            <p>Ticket generated at { ticket_date_str }</p> 
             {/* TODO: add time */}
         </div>  
         
@@ -79,7 +88,7 @@ export default async function WaitingPage({params}: { params: { queue: string, c
         </div>
 
         <div className='flex flex-col items-center mt-14'>
-            <p>Thank you for using QuickQueue</p>
+            <p className='text-sm'>Thank you for using QuickQueue</p>
             <Image src="/images/barcode.png" alt="barcode" width={118} height={512} className='flex-grow w-4/5' />
             <p>quickqueue.vercel.app</p>
         </div>
