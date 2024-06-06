@@ -14,7 +14,17 @@ async function getData(queue: number, customer: string) {
         body: JSON.stringify({ queue_id: queue, customer_id: customer })
     });
 
-    let data = await res.json();
+    let data;
+    
+    try {
+        data = await res.json();
+    }
+    catch (error) {
+        console.error('Failed to fetch ticket data');
+        return {
+            error: 'Failed to fetch ticket data'
+        };
+    }
 
     return data;
 }
@@ -24,7 +34,8 @@ type PageData = {
     customer_ready: boolean,
     customer_position: number,
     queue_name: string,
-    updated_at: string
+    updated_at: string,
+    error?: string
 }
 
 export default function Ticket({ queue, customer }: {
@@ -43,6 +54,24 @@ export default function Ticket({ queue, customer }: {
         }
         initialised.current = true;
 
+        // get local storage data
+        let localData = localStorage.getItem('tickets');
+        // add current ticket to local storage
+        if (localData) {
+            let tickets = JSON.parse(localData);
+
+            // check if ticket already exists
+            let exists = tickets.some((ticket: { customer: string, queue: number }) => ticket.customer == customer && ticket.queue == queue);
+            if (!exists) {
+                
+                tickets.push({ queue, customer });
+                localStorage.setItem('tickets', JSON.stringify(tickets));
+            }
+
+        } else {
+            localStorage.setItem('tickets', JSON.stringify([{ queue, customer }]));
+        }
+
         function updateData() {
 
             getData(queue, customer).then(data => {
@@ -57,6 +86,10 @@ export default function Ticket({ queue, customer }: {
 
     if (!data) {
         return <p>Loading your ticket info...</p>
+    }
+
+    if (data.error) {
+        return <p>{ data.error }</p>
     }
 
     let ticket_date = new Date(data.updated_at);
