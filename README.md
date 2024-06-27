@@ -1,36 +1,21 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# QuickQueue
 
-## Getting Started
+A simple proof of concept app to manage tickets and queues in e.g. restaurants orders. Created in Next.js and using a Postgres database, styled with TailwindCSS.
 
-First, run the development server:
+## Customer view
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Ticket view
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<img src="https://github.com/bewuwy/quick-queue/assets/61749397/86764f10-2a49-4e32-a5ed-6aadb1460e23" alt="Customer ticket view" width="300"/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Queue summary view
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<img src="https://github.com/bewuwy/quick-queue/assets/61749397/f3787c93-f26f-4038-9696-6a1fe9c2549e" alt="Customer queue summary view" width="300"/>
 
-## Learn More
+## Try for yourself!
 
-To learn more about Next.js, take a look at the following resources:
+Scan this QR code to join a test queue.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img src="https://github.com/bewuwy/quick-queue/assets/61749397/f5f6d50e-c862-45c2-ab24-773a57a8d682" alt="QR code to join queue" width="200"/>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+or click this link: [quickqueue.vercel.app/queue/100/add](https://quickqueue.vercel.app/queue/100/add)
